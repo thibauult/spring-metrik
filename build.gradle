@@ -1,0 +1,43 @@
+buildscript {
+    repositories { mavenCentral() }
+}
+
+plugins { id "io.spring.dependency-management" version "1.0.0.RELEASE" }
+
+ext { springBootVersion = '1.5.10.RELEASE' }
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'jacoco'
+
+group = 'bzh.tibus29.spring'
+sourceCompatibility = 1.8
+
+repositories { mavenCentral() }
+
+dependencies {
+
+    compile 'javax.inject:javax.inject:1'
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
+
+jacoco {
+    toolVersion = "0.7.9"
+    reportsDir = file("$buildDir/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacoco/html")
+    }
+}
+
+jacocoTestReport.dependsOn test
