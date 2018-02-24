@@ -15,6 +15,13 @@ cache:
 script:
   - ./gradlew check
   - ./gradlew jacocoTestCoverageVerification # break the build if verification failed
+  - sonar-scanner
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) # push jacoco results to codecov.io
+
+addons:
+  sonarcloud:
+    organization: "tibus29-github"
+    token:
+      secure: $SONAR_TOKEN

@@ -2,7 +2,10 @@ buildscript {
     repositories { mavenCentral() }
 }
 
-plugins { id "io.spring.dependency-management" version "1.0.0.RELEASE" }
+plugins {
+    id "io.spring.dependency-management" version "1.0.0.RELEASE"
+    id "org.sonarqube" version "2.6"
+}
 
 ext { springBootVersion = '1.5.10.RELEASE' }
 
