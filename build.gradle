@@ -46,6 +46,8 @@ release {
     scmAdapters = [ net.researchgate.release.GitAdapter ]
 }
 
+afterReleaseBuild.dependsOn uploadArchives
+
 jacocoTestReport {
 
     reports {
