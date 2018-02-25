@@ -21,15 +21,15 @@ uploadArchives {
             }
 
             pom.project {
-                name 'Java Parking Api'
+                name 'Spring Metrik'
                 packaging 'jar'
-                description 'An elegant Java library for toll parking management '
-                url 'https://github.com/tibus29/java-parking-api'
+                description 'Lightweight library to handle metrics in your Spring Boot application '
+                url 'https://github.com/tibus29/spring-metrik'
 
                 scm {
-                    connection 'scm:git:git://github.com/tibus29/java-parking-api.git'
-                    developerConnection 'scm:git:git@github.com:tibus29/java-parking-api.git'
-                    url 'https://github.com/tibus29/java-parking-api'
+                    connection 'scm:git:git://github.com/tibus29/spring-metrik.git'
+                    developerConnection 'scm:git:git@github.com:tibus29/spring-metrik.git'
+                    url 'https://github.com/tibus29/spring-metrik'
                 }
 
                 licenses {
