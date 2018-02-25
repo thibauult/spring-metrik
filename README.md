@@ -7,6 +7,28 @@
 
 `Metrik` is lightweight Spring library to monitor your services execution. 
 
+## Installation
+`@Metrik` release is published on the [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.github.tibus29%20a%3Aspring-metrik), 
+so you can install it from your preferred dependency management tool : `Gradle` or `Maven`.
+
+### Maven
+Include the following lines to your `pom.xml` dependencies : 
+```xml
+<dependencies>
+    <dependency>
+      <groupId>io.github.tibus29</groupId>
+      <artifactId>spring-metrik</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+</dependencies>
+```
+
+### Gradle
+Include the following line to your `build.gradle` dependencies : 
+```groovy
+compile 'io.github.tibus29:spring-metrik:1.0.0'
+```
+
 ## Usage
 ### Basic usage
 To monitor a method execution, simply add the `@Metrik` : 
