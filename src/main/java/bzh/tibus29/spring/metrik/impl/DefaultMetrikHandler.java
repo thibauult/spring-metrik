@@ -1,8 +1,8 @@
 package bzh.tibus29.spring.metrik.impl;
 
-import bzh.tibus29.spring.metrik.ExecutionContext;
-import bzh.tibus29.spring.metrik.TimedMetrikHandler;
-import bzh.tibus29.spring.metrik.TimedWrapper;
+import bzh.tibus29.spring.metrik.MetrikContext;
+import bzh.tibus29.spring.metrik.MetrikHandler;
+import bzh.tibus29.spring.metrik.MetrikWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class DefaultTimedMetrikHandler implements TimedMetrikHandler {
+public class DefaultMetrikHandler implements MetrikHandler {
 
     /** The Logger */
     private final Logger log;
@@ -18,24 +18,24 @@ public class DefaultTimedMetrikHandler implements TimedMetrikHandler {
     private static final String STATUS_OK = "OK";
     private static final String STATUS_KO = "KO";
 
-    public DefaultTimedMetrikHandler(String loggerName) {
+    public DefaultMetrikHandler(String loggerName) {
         this.log = LoggerFactory.getLogger(loggerName);
     }
 
     @Override
-    public void handleMetric(ExecutionContext context) {
+    public void handleMetrik(MetrikContext context) {
 
-        final TimedWrapper annotation = context.getAnnotation();
+        final MetrikWrapper annotation = context.getAnnotation();
 
         if(annotation.isEnabled()) {
-            log.info("{}|{}|{}|{}|[{}]|[{}]",
-                    annotation.getValue(),
-                    StringUtils.isEmpty(annotation.getMethod()) ? context.getMethodName() : annotation.getMethod(),
-                    context.getDuration(),
-                    this.formatStatus(context.getException()),
-                    this.formatParams(context.getParams()),
-                    this.formatResult(context.getResult())
-            );
+
+            final String method = StringUtils.isEmpty(annotation.getMethod()) ?
+                    context.getMethodName() : annotation.getMethod();
+            final String status = this.formatStatus(context.getException());
+            final String params = this.formatParams(context.getParams());
+            final String result = this.formatResult(context.getResult());
+
+            log.info("{}|{}|{}|{}|[{}]|[{}]", annotation.getValue(), method, context.getDuration(), status, params, result);
         }
     }
 

@@ -1,20 +1,20 @@
 package bzh.tibus29.spring.metrik;
 
-public class TimedWrapper {
+public class MetrikWrapper {
 
     private String value;
     private String method;
-    private Timed.Mode mode;
+    private Metrik.Mode mode;
     private boolean enabled;
 
-    public TimedWrapper() {
+    public MetrikWrapper() {
     }
 
-    public TimedWrapper(Timed source) {
+    public MetrikWrapper(Metrik source) {
         this();
         this.value = source.value();
         this.method = source.method();
-        this.mode = source.mode() == Timed.Mode.NULL ? Timed.Mode.MILLIS : source.mode();
+        this.mode = source.mode() == Metrik.Mode.NULL ? Metrik.Mode.MILLIS : source.mode();
         this.enabled = source.enabled();
     }
 
@@ -34,11 +34,11 @@ public class TimedWrapper {
         this.method = method;
     }
 
-    public Timed.Mode getMode() {
+    public Metrik.Mode getMode() {
         return mode;
     }
 
-    public void setMode(Timed.Mode mode) {
+    public void setMode(Metrik.Mode mode) {
         this.mode = mode;
     }
 

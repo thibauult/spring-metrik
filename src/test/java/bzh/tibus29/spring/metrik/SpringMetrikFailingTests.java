@@ -1,7 +1,6 @@
 package bzh.tibus29.spring.metrik;
 
-import bzh.tibus29.spring.metrik.timed.FailingTimedMetrikHandler;
-import bzh.tibus29.spring.metrik.timed.TimedOnEachMethodService;
+import bzh.tibus29.spring.metrik.timed.MetrikOnEachMethodService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,19 +15,19 @@ import javax.inject.Inject;
 public class SpringMetrikFailingTests {
 
     @Inject
-    private TimedOnEachMethodService timedOnEachMethodService;
+    private MetrikOnEachMethodService metrikOnEachMethodService;
 
 	@Test
 	public void timedOnEachMethods() {
-        this.timedOnEachMethodService.sayHello("tibus29");
+        this.metrikOnEachMethodService.sayHello("tibus29");
 	}
 
 	@SpringBootApplication
-	static class TestConfiguration {
+	static class TestApplication {
 
 	    @Bean
-	    public TimedMetrikHandler timedMetrikHandler() {
-	        return new FailingTimedMetrikHandler();
+	    public MetrikHandler failingMetrikHandler() {
+	        return context -> { throw new RuntimeException("Something went wrong..."); };
         }
     }
 }

@@ -2,16 +2,17 @@ package bzh.tibus29.spring.metrik;
 
 import java.util.Map;
 
-public class ExecutionContext {
+public class MetrikContext {
 
     private long duration;
     private Throwable exception;
     private Map<String, Object> params;
     private Object result;
-    private TimedWrapper annotation;
+    private MetrikWrapper annotation;
     private String methodName;
 
-    public ExecutionContext() {
+    public MetrikContext() {
+        // default constructor, nothing to do here
     }
 
     public long getDuration() {
@@ -46,11 +47,11 @@ public class ExecutionContext {
         return result;
     }
 
-    public void setAnnotation(TimedWrapper annotation) {
+    public void setAnnotation(MetrikWrapper annotation) {
         this.annotation = annotation;
     }
 
-    public TimedWrapper getAnnotation() {
+    public MetrikWrapper getAnnotation() {
         return annotation;
     }
 

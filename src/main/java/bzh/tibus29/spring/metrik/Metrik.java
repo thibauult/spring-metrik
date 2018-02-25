@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.METHOD, ElementType.TYPE })
-public @interface Timed {
+public @interface Metrik {
 
     enum Mode { NULL, MILLIS, NANO }
 
