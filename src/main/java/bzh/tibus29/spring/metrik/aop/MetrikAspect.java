@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Aspect
-@SuppressWarnings("squid:S1181")
+@SuppressWarnings({"squid:S1181", "squid:S00112"})
 public class MetrikAspect {
 
     /** The Logger */
