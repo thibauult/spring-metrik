@@ -1,13 +1,22 @@
 package bzh.tibus29.spring.metrik;
 
+import org.springframework.util.StringUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class MetrikWrapper {
 
     private String value;
     private String method;
     private Metrik.Mode mode;
     private boolean enabled;
+    private List<String> params;
+    private List<String> resultFields;
 
     public MetrikWrapper() {
+        // default constructor, nothing to do here
     }
 
     public MetrikWrapper(Metrik source) {
@@ -16,6 +25,8 @@ public class MetrikWrapper {
         this.method = source.method();
         this.mode = source.mode() == Metrik.Mode.NULL ? Metrik.Mode.MILLIS : source.mode();
         this.enabled = source.enabled();
+        this.params = arrayToList(source.params());
+        this.resultFields = arrayToList(source.resultFields());
     }
 
     public String getValue() {
@@ -51,6 +62,26 @@ public class MetrikWrapper {
     }
 
     public boolean isDefaultValue() {
-        return this.value.equals("_");
+        return StringUtils.isEmpty(this.value);
+    }
+
+    public List<String> getParams() {
+        return params;
+    }
+
+    public void setParams(String... params) {
+        this.params = arrayToList(params);
+    }
+
+    public List<String> getResultFields() {
+        return resultFields;
+    }
+
+    public void setResultFields(String... resultFields) {
+        this.resultFields = arrayToList(resultFields);
+    }
+
+    private static List<String> arrayToList(String... params) {
+        return Stream.of(params).filter(p -> !p.isEmpty()).collect(Collectors.toList());
     }
 }

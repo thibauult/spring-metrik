@@ -21,12 +21,12 @@ public class SpringMetrikAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public MetrikHandler timedMetricHandler() {
-        return new DefaultMetrikHandler(this.props.getTimedLoggerName());
+    public MetrikHandler defaultMetricHandler() {
+        return new DefaultMetrikHandler(this.props.getLoggerName());
     }
 
     @Bean
-    public MetrikAspect springMetrikTimedAspect(MetrikHandler handler) {
+    public MetrikAspect metrikAspect(MetrikHandler handler) {
         return new MetrikAspect(handler);
     }
 }

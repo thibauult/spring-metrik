@@ -1,4 +1,4 @@
-package bzh.tibus29.spring.metrik.timed;
+package bzh.tibus29.spring.metrik.services;
 
 import bzh.tibus29.spring.metrik.Metrik;
 import org.springframework.stereotype.Service;

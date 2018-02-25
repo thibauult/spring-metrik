@@ -5,13 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("metrik")
 public class SpringMetrikProperties {
 
-    private String timedLoggerName = "METRIK";
+    private String loggerName = "METRIK";
 
-    public String getTimedLoggerName() {
-        return timedLoggerName;
+    public String getLoggerName() {
+        return loggerName;
     }
 
-    public void setTimedLoggerName(String timedLoggerName) {
-        this.timedLoggerName = timedLoggerName;
+    public void setLoggerName(String loggerName) {
+        this.loggerName = loggerName;
     }
 }

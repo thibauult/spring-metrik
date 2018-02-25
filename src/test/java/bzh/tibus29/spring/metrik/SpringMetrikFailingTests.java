@@ -1,6 +1,6 @@
 package bzh.tibus29.spring.metrik;
 
-import bzh.tibus29.spring.metrik.timed.MetrikOnEachMethodService;
+import bzh.tibus29.spring.metrik.services.MetrikOnEachMethodService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

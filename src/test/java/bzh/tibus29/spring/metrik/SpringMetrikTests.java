@@ -1,8 +1,9 @@
 package bzh.tibus29.spring.metrik;
 
-import bzh.tibus29.spring.metrik.timed.MetrikOnClassService;
-import bzh.tibus29.spring.metrik.timed.MetrikOnClassWithoutModeService;
-import bzh.tibus29.spring.metrik.timed.MetrikOnEachMethodService;
+import bzh.tibus29.spring.metrik.services.ComplexBean;
+import bzh.tibus29.spring.metrik.services.MetrikOnClassService;
+import bzh.tibus29.spring.metrik.services.MetrikOnClassWithoutModeService;
+import bzh.tibus29.spring.metrik.services.MetrikOnEachMethodService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,6 +32,11 @@ public class SpringMetrikTests {
         this.metrikOnEachMethod.doSomething();
         this.metrikOnEachMethod.sayHello("John");
         this.metrikOnEachMethod.add(1, 3);
+
+        final ComplexBean bean = new ComplexBean();
+        bean.setFoo("hello");
+        bean.setBar(123);
+        this.metrikOnEachMethod.processComplexBean(bean);
 	}
 
     @Test

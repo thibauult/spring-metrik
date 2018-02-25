@@ -1,4 +1,4 @@
-package bzh.tibus29.spring.metrik.timed;
+package bzh.tibus29.spring.metrik.services;
 
 import java.util.concurrent.Callable;
 

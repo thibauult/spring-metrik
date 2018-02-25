@@ -24,6 +24,7 @@ dependencies {
 
     compile 'javax.inject:javax.inject:1'
     compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'commons-beanutils:commons-beanutils:1.9.3'
 
     testCompile 'org.awaitility:awaitility:3.0.0'
 	testCompile 'org.springframework.boot:spring-boot-starter-test'

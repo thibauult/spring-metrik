@@ -1,26 +1,30 @@
-package bzh.tibus29.spring.metrik.timed;
+package bzh.tibus29.spring.metrik.services;
 
 import bzh.tibus29.spring.metrik.Metrik;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MetrikOnEachMethodService extends MetrikTestBusiness {
+@Metrik(mode = Metrik.Mode.MILLIS)
+public class MetrikOnClassService extends MetrikTestBusiness {
 
-    @Metrik(method = "toto")
+    @Override
     public void doSomething() {
         super.doSomething();
     }
 
-    @Metrik("TEST")
+    @Override
+    @Metrik(enabled = false)
     public String sayHello(String to) {
         return super.sayHello(to);
     }
 
-    @Metrik(mode = Metrik.Mode.NANO)
+    @Override
+    @Metrik(value = "TITI", mode = Metrik.Mode.NANO)
     public int add(int a, int b) {
         return super.add(a, b);
     }
 
+    @Override
     @Metrik
     public void failingMethod() {
         super.failingMethod();

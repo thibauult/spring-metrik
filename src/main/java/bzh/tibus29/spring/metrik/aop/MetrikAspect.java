@@ -55,8 +55,8 @@ public class MetrikAspect {
         }
     }
 
-    protected Object proceed(ProceedingJoinPoint pjp, MetrikWrapper timed) throws MetrikException {
-        long t0 = current(timed.getMode());
+    protected Object proceed(ProceedingJoinPoint pjp, MetrikWrapper metrik) throws MetrikException {
+        long t0 = current(metrik.getMode());
         Object result = null;
         Throwable exception = null;
 
@@ -66,19 +66,19 @@ public class MetrikAspect {
             exception = throwable;
         }
 
-        final long duration = current(timed.getMode()) - t0;
+        final long duration = current(metrik.getMode()) - t0;
         final MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
 
-        if(timed.isDefaultValue()) {
-            timed.setValue(pjp.getTarget().getClass().getSimpleName());
+        if(metrik.isDefaultValue()) {
+            metrik.setValue(pjp.getTarget().getClass().getSimpleName());
         }
 
         final MetrikContext context = new MetrikContext();
+        context.setMetrik(metrik);
         context.setDuration(duration);
         context.setException(exception);
-        context.setParams(this.params(methodSignature, pjp.getArgs()));
-        context.setResult(result);
-        context.setAnnotation(timed);
+        context.setMethodParams(this.getMethodParams(methodSignature, pjp.getArgs()));
+        context.setMethodResult(result);
         context.setMethodName(this.getMethod(pjp).getName());
 
         try {
@@ -102,7 +102,7 @@ public class MetrikAspect {
 
         final MetrikWrapper wrapper = new MetrikWrapper(metrikOnClass);
 
-        if(!metrikOnMethod.value().equals("_")) {
+        if(!metrikOnMethod.value().equals("")) {
             wrapper.setValue(metrikOnMethod.value());
         }
 
@@ -118,6 +118,8 @@ public class MetrikAspect {
         }
 
         wrapper.setEnabled(metrikOnMethod.enabled());
+        wrapper.setParams(metrikOnMethod.params());
+        wrapper.setResultFields(metrikOnMethod.resultFields());
 
         return wrapper;
     }
@@ -126,7 +128,7 @@ public class MetrikAspect {
         return mode == Metrik.Mode.MILLIS ? System.currentTimeMillis() : System.nanoTime();
     }
 
-    protected Map<String, Object> params(MethodSignature methodSignature, Object[] args) {
+    protected Map<String, Object> getMethodParams(MethodSignature methodSignature, Object[] args) {
 
         final Map<String, Object> params = new HashMap<>();
 

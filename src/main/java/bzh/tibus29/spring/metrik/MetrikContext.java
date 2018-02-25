@@ -4,11 +4,11 @@ import java.util.Map;
 
 public class MetrikContext {
 
+    private MetrikWrapper metrik;
     private long duration;
     private Throwable exception;
-    private Map<String, Object> params;
-    private Object result;
-    private MetrikWrapper annotation;
+    private Map<String, Object> methodParams;
+    private Object methodResult;
     private String methodName;
 
     public MetrikContext() {
@@ -31,28 +31,28 @@ public class MetrikContext {
         return exception;
     }
 
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
+    public void setMethodParams(Map<String, Object> params) {
+        this.methodParams = params;
     }
 
-    public Map<String, Object> getParams() {
-        return params;
+    public Map<String, Object> getMethodParams() {
+        return methodParams;
     }
 
-    public void setResult(Object result) {
-        this.result = result;
+    public void setMethodResult(Object result) {
+        this.methodResult = result;
     }
 
-    public Object getResult() {
-        return result;
+    public Object getMethodResult() {
+        return methodResult;
     }
 
-    public void setAnnotation(MetrikWrapper annotation) {
-        this.annotation = annotation;
+    public void setMetrik(MetrikWrapper metrik) {
+        this.metrik = metrik;
     }
 
-    public MetrikWrapper getAnnotation() {
-        return annotation;
+    public MetrikWrapper getMetrik() {
+        return metrik;
     }
 
     public void setMethodName(String methodName) {

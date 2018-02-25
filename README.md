@@ -9,7 +9,7 @@
 
 ## Usage
 
-To monitor an execution, simply add the `@Timed` annotation on a service method : 
+To monitor an execution, simply add the `@Metrik` annotation on a service method : 
 
 ```java
 @Service

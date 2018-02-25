@@ -12,12 +12,12 @@ public @interface Metrik {
     enum Mode { NULL, MILLIS, NANO }
 
     /**
-     * Metric group name
+     * Metric group name. If not set, class name will be taken
      */
-    String value() default "_";
+    String value() default "";
 
     /**
-     * Metric method name
+     * Metric name. If not set, method name will be taken
      */
     String method() default "";
 
@@ -30,4 +30,14 @@ public @interface Metrik {
      * Metric enabled
      */
     boolean enabled() default true;
+
+    /**
+     * Params name to log. If not set, all params will be logged
+     */
+    String[] params() default "";
+
+    /**
+     * Result fields to log. If not set, all result object will be logged
+     */
+    String[] resultFields() default "";
 }
