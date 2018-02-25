@@ -1,0 +1,53 @@
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+signing {
+    useGpgCmd()
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'Java Parking Api'
+                packaging 'jar'
+                description 'An elegant Java library for toll parking management '
+                url 'https://github.com/tibus29/java-parking-api'
+
+                scm {
+                    connection 'scm:git:git://github.com/tibus29/java-parking-api.git'
+                    developerConnection 'scm:git:git@github.com:tibus29/java-parking-api.git'
+                    url 'https://github.com/tibus29/java-parking-api'
+                }
+
+                licenses {
+                    license {
+                        name 'MIT License'
+                        url 'http://www.opensource.org/licenses/mit-license.php'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'tibus29'
+                        name 'Thibault Pensec'
+                        email 'thibault.pensec@gmail.com'
+                        url 'https://github.com/tibus29'
+                    }
+                }
+            }
+        }
+    }
+}

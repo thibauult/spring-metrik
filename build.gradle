@@ -3,8 +3,9 @@ buildscript {
 }
 
 plugins {
-    id "io.spring.dependency-management" version "1.0.0.RELEASE"
-    id "org.sonarqube" version "2.6"
+    id 'io.spring.dependency-management' version '1.0.0.RELEASE'
+    id 'org.sonarqube' version '2.6'
+    id 'net.researchgate.release' version '2.6.0'
 }
 
 ext { springBootVersion = '1.5.10.RELEASE' }
@@ -12,8 +13,11 @@ ext { springBootVersion = '1.5.10.RELEASE' }
 group = 'io.github.tibus29'
 
 apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'jacoco'
+
+if(project.hasProperty('ossrhUsername')) {
+    apply from: 'gradle/publish.gradle'
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -32,6 +36,14 @@ dependencies {
 
 dependencyManagement {
     imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
+}
+
+release {
+    preTagCommitMessage = '[release] - releasing '
+    tagCommitMessage = '[release] - '
+    newVersionCommitMessage = '[release] - new version '
+    tagTemplate = 'v${version}'
+    scmAdapters = [ net.researchgate.release.GitAdapter ]
 }
 
 jacocoTestReport {
@@ -54,3 +66,22 @@ jacocoTestCoverageVerification {
 
 jacocoTestReport.dependsOn test
 jacocoTestCoverageVerification.dependsOn jacocoTestReport
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+task wrapper(type: Wrapper) {
+    description = 'Generates gradlew[.bat] scripts'
+    gradleVersion = '4.5'
+}
