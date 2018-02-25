@@ -5,7 +5,7 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/5a91a8d20fb24f05aebb6f8d/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a91a8d20fb24f05aebb6f8d)
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=io.github.tibus29:spring-metrik)](https://sonarcloud.io/dashboard/index/io.github.tibus29:spring-metrik)
 
-Simple Spring library to monitor your services execution. 
+`Metrik` is lightweight Spring library to monitor your services execution. 
 
 ## Usage
 
@@ -17,7 +17,7 @@ public class MyService {
     
     private static final Logger log = LoggerFactory.getLogger(MyService.class);
     
-    @Timed
+    @Metrik
     public void doSomething() {
         log.info("Hello, World !");
     }
@@ -25,7 +25,7 @@ public class MyService {
 ```
 or
 ```java
-@Timed
+@Metrik
 @Service
 public class MyService {
     
