@@ -4,7 +4,6 @@ import bzh.tibus29.spring.metrik.MetrikContext;
 import bzh.tibus29.spring.metrik.Metrik;
 import bzh.tibus29.spring.metrik.MetrikHandler;
 import bzh.tibus29.spring.metrik.MetrikWrapper;
-import bzh.tibus29.spring.metrik.exception.MetrikException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -33,14 +32,14 @@ public class MetrikAspect {
     }
 
     @Around("execution(@bzh.tibus29.spring.metrik.Metrik public * *(..)) && @annotation(metrikOnMethod)")
-    public Object timedOnMethod(ProceedingJoinPoint pjp, Metrik metrikOnMethod) throws MetrikException {
+    public Object timedOnMethod(ProceedingJoinPoint pjp, Metrik metrikOnMethod) throws Throwable {
         final Metrik metrikOnClass = AnnotationUtils.findAnnotation(pjp.getTarget().getClass(), Metrik.class);
         final MetrikWrapper wrapper = this.buildTimedWrapper(metrikOnClass, metrikOnMethod);
         return this.proceed(pjp, wrapper);
     }
 
     @Around("within(@bzh.tibus29.spring.metrik.Metrik *)")
-    public Object timedOnClass(ProceedingJoinPoint pjp) throws MetrikException {
+    public Object timedOnClass(ProceedingJoinPoint pjp) throws Throwable {
         final Metrik metrikOnClass = AnnotationUtils.findAnnotation(pjp.getTarget().getClass(), Metrik.class);
         final Metrik metrikOnMethod = AnnotationUtils.findAnnotation(this.getMethod(pjp), Metrik.class);
 
@@ -48,14 +47,10 @@ public class MetrikAspect {
             return this.proceed(pjp, new MetrikWrapper(metrikOnClass));
         }
 
-        try {
-            return pjp.proceed();
-        } catch (Throwable throwable) {
-            throw new MetrikException(throwable);
-        }
+        return pjp.proceed();
     }
 
-    protected Object proceed(ProceedingJoinPoint pjp, MetrikWrapper metrik) throws MetrikException {
+    protected Object proceed(ProceedingJoinPoint pjp, MetrikWrapper metrik) throws Throwable {
         long t0 = current(metrik.getMode());
         Object result = null;
         Throwable exception = null;
@@ -88,7 +83,7 @@ public class MetrikAspect {
         }
 
         if(exception != null) {
-            throw new MetrikException(exception);
+            throw exception;
         }
 
         return result;

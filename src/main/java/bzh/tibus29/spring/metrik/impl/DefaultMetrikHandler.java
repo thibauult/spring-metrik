@@ -81,6 +81,7 @@ public class DefaultMetrikHandler implements MetrikHandler {
         try {
             return BeanUtils.getProperty(bean, propertyName);
         } catch (Exception e) {
+            log.warn("Unable to get property \"{}\" from bean {}, cause : {}", propertyName, bean, e.getMessage());
             return orElse;
         }
     }
