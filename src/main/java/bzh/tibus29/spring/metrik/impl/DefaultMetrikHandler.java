@@ -64,7 +64,7 @@ public class DefaultMetrikHandler implements MetrikHandler {
 
         return metrikParams.stream().map(mp -> {
 
-            final int dotIndex = mp.indexOf(".");
+            final int dotIndex = mp.indexOf('.');
             if(dotIndex > 0) {
                 String paramName = mp.substring(0, dotIndex);
                 Object paramValue = methodParams.getOrDefault(paramName, null);
