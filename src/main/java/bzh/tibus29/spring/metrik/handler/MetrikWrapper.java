@@ -18,6 +18,7 @@ public class MetrikWrapper {
 
     private Metrik.TimeMode timeMode;
     private TraceMode traceMode;
+    private boolean traceResult;
 
     public MetrikWrapper() {
         // default constructor, nothing to do here
@@ -32,6 +33,7 @@ public class MetrikWrapper {
         this.params = arrayToList(source.params());
         this.resultFields = arrayToList(source.resultFields());
         this.traceMode = source.traceMode();
+        this.traceResult = source.traceResult();
     }
 
     public String getValue() {
@@ -96,5 +98,13 @@ public class MetrikWrapper {
 
     public void setTraceMode(TraceMode traceMode) {
         this.traceMode = traceMode;
+    }
+
+    public boolean isTraceResult() {
+        return traceResult;
+    }
+
+    public void setTraceResult(boolean traceResult) {
+        this.traceResult = traceResult;
     }
 }

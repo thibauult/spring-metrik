@@ -20,9 +20,9 @@ public class DefaultMetrikHandler implements MetrikHandler {
     static final String STATUS_OK = "OK";
     static final String STATUS_KO = "KO";
 
-    static final String UNKNOWN = "???";
+    private static final String UNKNOWN = "???";
 
-    private final SpringMetrikProperties properties;
+    protected final SpringMetrikProperties properties;
 
     @Inject
     public DefaultMetrikHandler(SpringMetrikProperties properties) {
@@ -55,6 +55,7 @@ public class DefaultMetrikHandler implements MetrikHandler {
         );
         final String result = this.formatResult(
                 traceMode,
+                context.getMetrik().isTraceResult(),
                 context.getMethodResult(),
                 context.getMetrik().getResultFields()
         );
@@ -66,8 +67,8 @@ public class DefaultMetrikHandler implements MetrikHandler {
         return exception != null ? STATUS_KO : STATUS_OK;
     }
 
-    protected String formatResult(TraceMode traceMode, Object result, List<String> resultFields) {
-        if(resultFields.isEmpty() && traceMode == TraceMode.AUTO) {
+    protected String formatResult(TraceMode traceMode, boolean traceResult, Object result, List<String> resultFields) {
+        if((resultFields.isEmpty() && traceMode == TraceMode.AUTO) || traceResult) {
             return result == null ? "" : this.formatObject(result);
         }
         else if(!resultFields.isEmpty()) {

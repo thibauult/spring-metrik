@@ -1,9 +1,6 @@
 package bzh.tibus29.spring.metrik;
 
-import bzh.tibus29.spring.metrik.services.ComplexBean;
-import bzh.tibus29.spring.metrik.services.MetrikOnClassService;
-import bzh.tibus29.spring.metrik.services.MetrikOnClassWithoutModeService;
-import bzh.tibus29.spring.metrik.services.MetrikOnEachMethodService;
+import bzh.tibus29.spring.metrik.services.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,6 +26,9 @@ public class SpringMetrikTests {
 
     @Inject
     private MetrikOnClassWithoutModeService metrikOnClassWithoutMode;
+
+    @Inject
+    private MetrikWithManualModeService metrikWithManualModeService;
 
 	@Test
 	public void metrikOnEachMethods() {
@@ -62,6 +62,11 @@ public class SpringMetrikTests {
     @Test(expected = RuntimeException.class)
     public void metrikMethodThatFailed() {
         this.metrikOnEachMethod.failingMethod();
+    }
+
+    @Test
+    public void metrikWithManualModeService() {
+	    this.metrikWithManualModeService.sayHelloTo("Foo");
     }
 
     @Test

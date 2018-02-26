@@ -45,4 +45,9 @@ public @interface Metrik {
      * @return the result fields to log. If not set, all result object will be logged
      */
     String[] resultFields() default "";
+
+    /**
+     * @return force tracing event if {@link Metrik#traceMode()} is set to {@link TraceMode#MANUAL}
+     */
+    boolean traceResult() default false;
 }

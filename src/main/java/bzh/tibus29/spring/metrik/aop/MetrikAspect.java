@@ -128,6 +128,7 @@ public class MetrikAspect {
         wrapper.setEnabled(metrikOnMethod.enabled());
         wrapper.setParams(metrikOnMethod.params());
         wrapper.setResultFields(metrikOnMethod.resultFields());
+        wrapper.setTraceResult(metrikOnMethod.traceResult());
 
         return wrapper;
     }

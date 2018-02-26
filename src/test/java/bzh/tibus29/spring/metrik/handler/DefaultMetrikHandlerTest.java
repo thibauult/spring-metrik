@@ -49,14 +49,15 @@ public class DefaultMetrikHandlerTest {
     public void testFormatResult() {
         final ComplexBean bean = new ComplexBean("hello", 2);
 
-        assertEquals("", handler.formatResult(TraceMode.MANUAL, bean, emptyList()));
-        assertEquals(bean.toString(), handler.formatResult(TraceMode.AUTO, bean, emptyList()));
+        assertEquals("", handler.formatResult(TraceMode.MANUAL, false, bean, emptyList()));
+        assertEquals(bean.toString(), handler.formatResult(TraceMode.MANUAL, true, bean, emptyList()));
+        assertEquals(bean.toString(), handler.formatResult(TraceMode.AUTO, false, bean, emptyList()));
 
-        assertEquals("foo='hello'", handler.formatResult(TraceMode.MANUAL, bean, singletonList("foo")));
-        assertEquals("foo='hello'", handler.formatResult(TraceMode.AUTO, bean, singletonList("foo")));
+        assertEquals("foo='hello'", handler.formatResult(TraceMode.MANUAL, false, bean, singletonList("foo")));
+        assertEquals("foo='hello'", handler.formatResult(TraceMode.AUTO, false, bean, singletonList("foo")));
 
-        assertEquals("unknown=???", handler.formatResult(TraceMode.MANUAL, bean, singletonList("unknown")));
-        assertEquals("unknown=???", handler.formatResult(TraceMode.AUTO, bean, singletonList("unknown")));
+        assertEquals("unknown=???", handler.formatResult(TraceMode.MANUAL, false, bean, singletonList("unknown")));
+        assertEquals("unknown=???", handler.formatResult(TraceMode.AUTO, false, bean, singletonList("unknown")));
     }
 
     @Test
