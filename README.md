@@ -30,98 +30,54 @@ compile 'io.github.tibus29:spring-metrik:1.1.0'
 ```
 
 ## Usage
-### Basic usage
-To monitor a method execution, simply add the `@Metrik` : 
+Using the library is very simple, you simply have to annotate the bean you want to monitor with`@Metrik` :
 ```java
 @Service
+@Metrik(value = "MY_SERVICE", traceMode = TraceMode.AUTO) // custom metrik group, TraceMode.AUTO will output all params and result
 public class MyService {
     
-    @Metrik
-    public void doSomething() { log.info("Hello, World !"); }
-}
-
-// or globally 
-
-@Metrik
-@Service
-public class MyService {
-    
-    public void doSomething() { log.info("Hello, World !"); }
-}
-```
-Output : 
-```text
-Hello, World !
-MyService|doSomething|14|OK|[]|[]
-```
-### Dealing with parameters and result
-By default, `@Metrik` will output all method parameters : 
-```java
-@Service
-public class MyService {
-    
-    @Metrik
-    public int add(int a, int b) { return a + b; }
-}
-```
-Output : 
-```text
-MyService|add|9|OK|[a=1,b=2]|[3]
-```
-Of course you can change this behaviour by setting which parameters will be logged : 
-```java
-@Service
-public class MyService {
-    
-    @Metrik(params = { "a" })
-    public int add(int a, int b) { return a + b; }
-}
-```
-Output : 
-```text
-MyService|add|9|OK|[a=1]|[3]
-```
-And it also works with result and parameters fields : 
-```java
-@Service
-public class MyService {
-    
-    class Foo {
-        private int bar = 10;
-        // getter and setter
+    public String sayHelloTo(String name) { 
+        return "Hello, " + name + " !"; 
     }
     
-    @Metrik(params = { "foo.bar" }, resultFields = { "bar" })
-    public Foo process(Foo foo) { 
-        foo.setBar(foo.getBar() * 2);
-        return foo;
+    @Metrik(params = { "username" }) // prevent for logging clear password into logs !
+    public boolean authenticate(String username, String password) {
+        return true;
     }
-}
-```
-Output :
-```text
-MyService|process|108|OK|[foo.bar=10]|[bar=20]
-```
-### Disable @Metrik
-`@Metrik` can be disabled on particular methods : 
-```java
-@Metrik
-@Service
-public class MyService {
     
     @Metrik(enabled = false)
-    public void methodA() {
-        log.info("I'm in method A");
+    public void doSomething() {
+        log.info("I do something...");   
+    }
+}
+
+@RestController
+@RequestMapping("/")
+public class MyController {
+    
+    @Inject
+    MyService myService;
+    
+    class MyBean {
+        private String action = "Please clone me !";
     }
     
-    public void methodB() {
-        log.info("I'm in method B");
+    @GetMapping
+    @Metrik(resultFields = { "toto" }) // the annotation can be placed on a single method
+    public MyBean index() {
+        log.info(this.myService.sayHelloTo("Foo"));
+        log.info("Authentication : {} !", this.myService.authenticate("foo@bar.com", "password") ? "success" : "failure");
+        this.myService.doSomething();
+        return new MyBean();
     }
 }
 ```
-Output :
+Output : 
 ```text
-I'm in method A
-I'm in method B
-MyService|methodB|12|OK|[]|[]
+MY_SERVICE|sayHelloTo|21|OK|[name='Foo']|['Hello, Foo !']
+Hello, Foo !
+MY_SERVICE|authenticate|125|OK|[username='foo@bar.com']|[true]
+Authentication : success !
+I do something...
+MyController|index|163|OK|[]|[action='Please clone me !']
 ```
