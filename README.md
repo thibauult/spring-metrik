@@ -19,7 +19,7 @@ Include the following lines to your `pom.xml` dependencies :
     <dependency>
       <groupId>io.github.tibus29</groupId>
       <artifactId>spring-metrik</artifactId>
-      <version>1.1.0</version>
+      <version>1.2.0</version>
     </dependency>
 </dependencies>
 ```
@@ -27,7 +27,7 @@ Include the following lines to your `pom.xml` dependencies :
 ### Gradle
 Include the following line to your `build.gradle` dependencies : 
 ```groovy
-compile 'io.github.tibus29:spring-metrik:1.1.0'
+compile 'io.github.tibus29:spring-metrik:1.2.0'
 ```
 
 ## Usage
