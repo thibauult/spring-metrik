@@ -41,7 +41,7 @@ public class DefaultMetrikHandlerTest {
         final ComplexBean bean = new ComplexBean("bar", 4);
 
         assertEquals("4", handler.getObjectProperty(bean, "bar", null));
-        assertEquals("bar", handler.getObjectProperty(bean, "foo", null));
+        assertEquals("'bar'", handler.getObjectProperty(bean, "foo", null));
         assertEquals("???", handler.getObjectProperty(bean, "_", "???"));
     }
 
@@ -52,8 +52,8 @@ public class DefaultMetrikHandlerTest {
         assertEquals("", handler.formatResult(TraceMode.MANUAL, bean, emptyList()));
         assertEquals(bean.toString(), handler.formatResult(TraceMode.AUTO, bean, emptyList()));
 
-        assertEquals("foo=hello", handler.formatResult(TraceMode.MANUAL, bean, singletonList("foo")));
-        assertEquals("foo=hello", handler.formatResult(TraceMode.AUTO, bean, singletonList("foo")));
+        assertEquals("foo='hello'", handler.formatResult(TraceMode.MANUAL, bean, singletonList("foo")));
+        assertEquals("foo='hello'", handler.formatResult(TraceMode.AUTO, bean, singletonList("foo")));
 
         assertEquals("unknown=???", handler.formatResult(TraceMode.MANUAL, bean, singletonList("unknown")));
         assertEquals("unknown=???", handler.formatResult(TraceMode.AUTO, bean, singletonList("unknown")));
