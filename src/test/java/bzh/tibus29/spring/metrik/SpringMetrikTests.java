@@ -18,6 +18,9 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 public class SpringMetrikTests {
 
+    @SpringBootApplication
+    static class TestApplication {}
+
     @Inject
     private MetrikOnEachMethodService metrikOnEachMethod;
 
@@ -63,11 +66,8 @@ public class SpringMetrikTests {
 
     @Test
     public void checkMetrikModeValues() {
-        assertEquals(Metrik.Mode.NULL, Metrik.Mode.valueOf("NULL"));
-        assertEquals(Metrik.Mode.NANO, Metrik.Mode.valueOf("NANO"));
-        assertEquals(Metrik.Mode.MILLIS, Metrik.Mode.valueOf("MILLIS"));
+        assertEquals(Metrik.TimeMode.NULL, Metrik.TimeMode.valueOf("NULL"));
+        assertEquals(Metrik.TimeMode.NANO, Metrik.TimeMode.valueOf("NANO"));
+        assertEquals(Metrik.TimeMode.MILLIS, Metrik.TimeMode.valueOf("MILLIS"));
     }
-
-	@SpringBootApplication
-	static class TestApplication {}
 }

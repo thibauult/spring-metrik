@@ -1,6 +1,7 @@
 package bzh.tibus29.spring.metrik.services;
 
 import bzh.tibus29.spring.metrik.Metrik;
+import bzh.tibus29.spring.metrik.TraceMode;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,12 +12,12 @@ public class MetrikOnEachMethodService extends MetrikTestBusiness {
         super.doSomething();
     }
 
-    @Metrik("TEST")
+    @Metrik(value = "TEST", traceMode = TraceMode.AUTO)
     public String sayHello(String to) {
         return super.sayHello(to);
     }
 
-    @Metrik(mode = Metrik.Mode.NANO)
+    @Metrik(timeMode = Metrik.TimeMode.NANO, traceMode = TraceMode.AUTO, params = "toto")
     public int add(int a, int b) {
         return super.add(a, b);
     }

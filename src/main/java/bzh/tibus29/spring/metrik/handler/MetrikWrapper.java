@@ -1,5 +1,7 @@
-package bzh.tibus29.spring.metrik;
+package bzh.tibus29.spring.metrik.handler;
 
+import bzh.tibus29.spring.metrik.TraceMode;
+import bzh.tibus29.spring.metrik.Metrik;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -10,10 +12,12 @@ public class MetrikWrapper {
 
     private String value;
     private String method;
-    private Metrik.Mode mode;
     private boolean enabled;
     private List<String> params;
     private List<String> resultFields;
+
+    private Metrik.TimeMode timeMode;
+    private TraceMode traceMode;
 
     public MetrikWrapper() {
         // default constructor, nothing to do here
@@ -23,10 +27,11 @@ public class MetrikWrapper {
         this();
         this.value = source.value();
         this.method = source.method();
-        this.mode = source.mode() == Metrik.Mode.NULL ? Metrik.Mode.MILLIS : source.mode();
+        this.timeMode = source.timeMode() == Metrik.TimeMode.NULL ? Metrik.TimeMode.MILLIS : source.timeMode();
         this.enabled = source.enabled();
         this.params = arrayToList(source.params());
         this.resultFields = arrayToList(source.resultFields());
+        this.traceMode = source.traceMode();
     }
 
     public String getValue() {
@@ -45,12 +50,12 @@ public class MetrikWrapper {
         this.method = method;
     }
 
-    public Metrik.Mode getMode() {
-        return mode;
+    public Metrik.TimeMode getTimeMode() {
+        return timeMode;
     }
 
-    public void setMode(Metrik.Mode mode) {
-        this.mode = mode;
+    public void setTimeMode(Metrik.TimeMode timeMode) {
+        this.timeMode = timeMode;
     }
 
     public boolean isEnabled() {
@@ -83,5 +88,13 @@ public class MetrikWrapper {
 
     private static List<String> arrayToList(String... params) {
         return Stream.of(params).filter(p -> !p.isEmpty()).collect(Collectors.toList());
+    }
+
+    public TraceMode getTraceMode() {
+        return traceMode;
+    }
+
+    public void setTraceMode(TraceMode traceMode) {
+        this.traceMode = traceMode;
     }
 }

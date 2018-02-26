@@ -1,8 +1,8 @@
-package bzh.tibus29.spring.metrik;
+package bzh.tibus29.spring.metrik.handler;
 
 import java.util.Map;
 
-public class MetrikContext {
+public class MetrikHandlerContext {
 
     private MetrikWrapper metrik;
     private long duration;
@@ -11,7 +11,7 @@ public class MetrikContext {
     private Object methodResult;
     private String methodName;
 
-    public MetrikContext() {
+    public MetrikHandlerContext() {
         // default constructor, nothing to do here
     }
 

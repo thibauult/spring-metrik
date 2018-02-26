@@ -1,9 +1,10 @@
 package bzh.tibus29.spring.metrik.aop;
 
-import bzh.tibus29.spring.metrik.MetrikContext;
+import bzh.tibus29.spring.metrik.TraceMode;
+import bzh.tibus29.spring.metrik.handler.MetrikHandlerContext;
 import bzh.tibus29.spring.metrik.Metrik;
-import bzh.tibus29.spring.metrik.MetrikHandler;
-import bzh.tibus29.spring.metrik.MetrikWrapper;
+import bzh.tibus29.spring.metrik.handler.MetrikHandler;
+import bzh.tibus29.spring.metrik.handler.MetrikWrapper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -34,7 +35,7 @@ public class MetrikAspect {
     @Around("execution(@bzh.tibus29.spring.metrik.Metrik public * *(..)) && @annotation(metrikOnMethod)")
     public Object timedOnMethod(ProceedingJoinPoint pjp, Metrik metrikOnMethod) throws Throwable {
         final Metrik metrikOnClass = AnnotationUtils.findAnnotation(pjp.getTarget().getClass(), Metrik.class);
-        final MetrikWrapper wrapper = this.buildTimedWrapper(metrikOnClass, metrikOnMethod);
+        final MetrikWrapper wrapper = this.buildMetrikWrapper(metrikOnClass, metrikOnMethod);
         return this.proceed(pjp, wrapper);
     }
 
@@ -51,7 +52,7 @@ public class MetrikAspect {
     }
 
     protected Object proceed(ProceedingJoinPoint pjp, MetrikWrapper metrik) throws Throwable {
-        long t0 = current(metrik.getMode());
+        long t0 = current(metrik.getTimeMode());
         Object result = null;
         Throwable exception = null;
 
@@ -61,14 +62,14 @@ public class MetrikAspect {
             exception = throwable;
         }
 
-        final long duration = current(metrik.getMode()) - t0;
+        final long duration = current(metrik.getTimeMode()) - t0;
         final MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
 
         if(metrik.isDefaultValue()) {
             metrik.setValue(pjp.getTarget().getClass().getSimpleName());
         }
 
-        final MetrikContext context = new MetrikContext();
+        final MetrikHandlerContext context = new MetrikHandlerContext();
         context.setMetrik(metrik);
         context.setDuration(duration);
         context.setException(exception);
@@ -89,7 +90,7 @@ public class MetrikAspect {
         return result;
     }
 
-    protected MetrikWrapper buildTimedWrapper(Metrik metrikOnClass, Metrik metrikOnMethod) {
+    protected MetrikWrapper buildMetrikWrapper(Metrik metrikOnClass, Metrik metrikOnMethod) {
 
         if(metrikOnClass == null) {
             return new MetrikWrapper(metrikOnMethod);
@@ -97,21 +98,33 @@ public class MetrikAspect {
 
         final MetrikWrapper wrapper = new MetrikWrapper(metrikOnClass);
 
+        // value
+        //
         if(!metrikOnMethod.value().equals("")) {
             wrapper.setValue(metrikOnMethod.value());
         }
 
-        if(metrikOnMethod.mode() == Metrik.Mode.NULL) {
-            if(metrikOnClass.mode() != Metrik.Mode.NULL) {
+        // time mode
+        //
+        if(metrikOnMethod.timeMode() == Metrik.TimeMode.NULL) {
+            if(metrikOnClass.timeMode() != Metrik.TimeMode.NULL) {
                 wrapper.setMethod(metrikOnClass.method());
             }
             else {
-                wrapper.setMode(Metrik.Mode.MILLIS);
+                wrapper.setTimeMode(Metrik.TimeMode.MILLIS);
             }
         } else {
-            wrapper.setMode(metrikOnMethod.mode());
+            wrapper.setTimeMode(metrikOnMethod.timeMode());
         }
 
+        // trace mode
+        //
+        if(metrikOnMethod.traceMode() != TraceMode.GLOBAL) {
+            wrapper.setTraceMode(metrikOnMethod.traceMode());
+        }
+
+        // enabled, params and result fields
+        //
         wrapper.setEnabled(metrikOnMethod.enabled());
         wrapper.setParams(metrikOnMethod.params());
         wrapper.setResultFields(metrikOnMethod.resultFields());
@@ -119,8 +132,8 @@ public class MetrikAspect {
         return wrapper;
     }
 
-    protected long current(Metrik.Mode mode) {
-        return mode == Metrik.Mode.MILLIS ? System.currentTimeMillis() : System.nanoTime();
+    protected long current(Metrik.TimeMode timeMode) {
+        return timeMode == Metrik.TimeMode.MILLIS ? System.currentTimeMillis() : System.nanoTime();
     }
 
     protected Map<String, Object> getMethodParams(MethodSignature methodSignature, Object[] args) {
