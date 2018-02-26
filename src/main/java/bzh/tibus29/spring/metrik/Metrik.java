@@ -9,35 +9,40 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD, ElementType.TYPE })
 public @interface Metrik {
 
-    enum Mode { NULL, MILLIS, NANO }
+    enum TimeMode { NULL, MILLIS, NANO }
 
     /**
-     * Metric group name. If not set, class name will be taken
+     * @return the metric group name. If not set, class name will be taken
      */
     String value() default "";
 
     /**
-     * Metric name. If not set, method name will be taken
+     * @return the metric name. If not set, method name will be taken
      */
     String method() default "";
 
     /**
-     * Duration mode
+     * @return the duration mode
      */
-    Mode mode() default Mode.NULL;
+    TimeMode timeMode() default TimeMode.NULL;
 
     /**
-     * Metric enabled
+     * @return metric enabled or not
      */
     boolean enabled() default true;
 
     /**
-     * Params name to log. If not set, all params will be logged
+     * @return the logging mode
+     */
+    TraceMode traceMode() default TraceMode.GLOBAL;
+
+    /**
+     * @return params name to log. If not set, all params will be logged. Use '*' to log all parameters
      */
     String[] params() default "";
 
     /**
-     * Result fields to log. If not set, all result object will be logged
+     * @return the result fields to log. If not set, all result object will be logged
      */
     String[] resultFields() default "";
 }

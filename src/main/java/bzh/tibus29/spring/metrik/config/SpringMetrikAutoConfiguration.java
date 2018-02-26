@@ -1,8 +1,8 @@
 package bzh.tibus29.spring.metrik.config;
 
-import bzh.tibus29.spring.metrik.MetrikHandler;
+import bzh.tibus29.spring.metrik.handler.MetrikHandler;
 import bzh.tibus29.spring.metrik.aop.MetrikAspect;
-import bzh.tibus29.spring.metrik.impl.DefaultMetrikHandler;
+import bzh.tibus29.spring.metrik.handler.DefaultMetrikHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class SpringMetrikAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public MetrikHandler defaultMetricHandler() {
-        return new DefaultMetrikHandler(this.props.getLoggerName());
+        return new DefaultMetrikHandler(this.props);
     }
 
     @Bean
