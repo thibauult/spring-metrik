@@ -4,6 +4,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/b734eaa102d962ee179c/maintainability)](https://codeclimate.com/github/tibus29/spring-metrik/maintainability)
 [![Dependency Status](https://www.versioneye.com/user/projects/5a91a8d20fb24f05aebb6f8d/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a91a8d20fb24f05aebb6f8d)
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=io.github.tibus29:spring-metrik)](https://sonarcloud.io/dashboard/index/io.github.tibus29:spring-metrik)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.tibus29/spring-metrik.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.github.tibus29%20a%3Aspring-metrik)
 
 `Metrik` is lightweight Spring library to monitor your services execution. 
 
